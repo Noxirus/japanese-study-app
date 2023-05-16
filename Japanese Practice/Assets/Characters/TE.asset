@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c698374910ec0bd4b8d6e8b5576e5ac8, type: 3}
+  m_Name: TE
+  m_EditorClassIdentifier: 
+  romanji: TE
+  hiragana: {fileID: 21300000, guid: af518ca4aba4e0e4481c0d6c1162cb37, type: 3}
+  katakana: {fileID: 21300000, guid: 19b3fd857eeeb1345980c1e1d0aac63d, type: 3}
+  hasQuoteDakuten: 1
+  hasBubbleDakuten: 0
