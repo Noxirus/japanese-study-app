@@ -20,11 +20,9 @@ public class WritingMenu : MonoBehaviour
     public void DisplayQuestion()
     {
         int randomChoice = Random.Range(0, japaneseCharacters.Count);
-        Debug.Log("Choice: " + randomChoice);
 
         if(currentCharacter == japaneseCharacters[randomChoice])
         {
-            Debug.Log("Same character chosen?");
             DisplayQuestion();
             return;
         }
