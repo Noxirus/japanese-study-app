@@ -6,6 +6,7 @@ enum EMenu
 {
     main = 0,
     writing = 1,
+    kanji = 2,
     MAX = 100,
 }
 
@@ -14,6 +15,7 @@ public class MenuManager : MonoBehaviour
     
     [SerializeField] GameObject mainMenu;
     [SerializeField] GameObject writingMenu;
+    [SerializeField] GameObject kanjiMenu;
 
     EMenu currentMenu = EMenu.main;
 
@@ -33,5 +35,14 @@ public class MenuManager : MonoBehaviour
         mainMenu.SetActive(false);
         writingMenu.SetActive(true);
         currentMenu = EMenu.writing;
+    }
+
+    public void SelectKanjiPractice()
+    {
+        if(currentMenu == EMenu.kanji) { return; }
+
+        mainMenu.SetActive(false);
+        kanjiMenu.SetActive(true);
+        currentMenu = EMenu.kanji;
     }
 }
