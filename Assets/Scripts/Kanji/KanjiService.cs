@@ -2,14 +2,13 @@
 using UnityEngine.Networking;
 using Newtonsoft.Json;
 using System.Collections;
-using TMPro;
 using UnityEngine.Events;
 using System.Collections.Generic;
 
 public class KanjiService : MonoBehaviour
 {
     Dictionary<string, Kanji> kanjiDictionary = new Dictionary<string, Kanji>();
-    Dictionary<string, Kanji> activeStudyDictionary = new Dictionary<string, Kanji>();
+    Dictionary<string, Kanji> kanjiStudyCards = new Dictionary<string, Kanji>();
 
     static KanjiService instance;
 
@@ -32,8 +31,14 @@ public class KanjiService : MonoBehaviour
         return instance;
     }
 
+    public void AddKanjiToStudyCards(Kanji kanji)
+    {
+        kanjiStudyCards.Add(kanji.kanji, kanji);
+        //Add this to the player preferences
+    }
 
-    public void RequestKanji(string character, UnityAction<Kanji> followUpEvent)
+
+    public void RequestSingleKanji(string character, UnityAction<Kanji> followUpEvent, UnityAction failedEvent)
     {
         if (kanjiDictionary.ContainsKey(character))
         {
@@ -41,11 +46,11 @@ public class KanjiService : MonoBehaviour
         }
         else
         {
-            StartCoroutine(FindKanjiInformation(character, followUpEvent));
+            StartCoroutine(FindKanjiInformation(character, followUpEvent, failedEvent));
         }   
     }
 
-    private IEnumerator FindKanjiInformation(string kanjiCharacter, UnityAction<Kanji> followUpEvent)
+    private IEnumerator FindKanjiInformation(string kanjiCharacter, UnityAction<Kanji> followUpEvent, UnityAction failedEvent)
     {
         string kanjiGetUrl = kanjiAPIUrl + "kanji/" + kanjiCharacter;
         UnityWebRequest request = UnityWebRequest.Get(kanjiGetUrl);
@@ -54,7 +59,9 @@ public class KanjiService : MonoBehaviour
 
         if (request.result == UnityWebRequest.Result.Success)
         {
+            Debug.Log("Found kanji: ");
             string responseText = request.downloadHandler.text;
+            Debug.Log(responseText);
             Kanji newKanjiInformation = JsonConvert.DeserializeObject<Kanji>(responseText);
             kanjiDictionary.Add(kanjiCharacter, newKanjiInformation);
             followUpEvent.Invoke(newKanjiInformation);
@@ -62,6 +69,7 @@ public class KanjiService : MonoBehaviour
         else
         {
             string error = request.error;
+            failedEvent.Invoke();
             Debug.Log(error);
             //Need to display that the Kanji could not be found
         }
