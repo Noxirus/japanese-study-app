@@ -10,13 +10,14 @@ public class HiraganaKatakanaPractice : MonoBehaviour
     Character currentCharacter = null;
     bool bIsHiragana;
 
-    [Header("UI Elements")]
+    [Header("Containers")]
     [SerializeField] GameObject characterContainer;
+    [SerializeField] GameObject answerContainer;
+
+    [Header("UI Elements")]
     [SerializeField] TextMeshProUGUI romanjiText;
     [SerializeField] TextMeshProUGUI scriptText;
     [SerializeField] Image answerImage;
-    [SerializeField] GameObject newCharacterButton;
-    [SerializeField] GameObject showAnswerButton;
 
     public void DisplayQuestion()
     {
@@ -31,11 +32,8 @@ public class HiraganaKatakanaPractice : MonoBehaviour
         currentCharacter = japaneseCharacters[randomChoice];
 
         romanjiText.text = currentCharacter.romanji;
-        answerImage.gameObject.SetActive(false);
+        answerContainer.SetActive(false);
         characterContainer.SetActive(true);
-
-        newCharacterButton.SetActive(false);
-        showAnswerButton.SetActive(true);
 
         bIsHiragana = Random.Range(0, 2) == 0 ? true : false;
         scriptText.text = bIsHiragana ? "In Hiragana" : "In Katakana";
@@ -45,8 +43,6 @@ public class HiraganaKatakanaPractice : MonoBehaviour
     {
         answerImage.sprite = bIsHiragana ? currentCharacter.hiragana : currentCharacter.katakana;
         characterContainer.SetActive(false);
-        answerImage.gameObject.SetActive(true);
-        showAnswerButton.SetActive(false);
-        newCharacterButton.SetActive(true);
+        answerContainer.SetActive(true);
     }
 }

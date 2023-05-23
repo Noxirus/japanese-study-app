@@ -1,48 +1,56 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum EMenu
+[System.Serializable]
+public enum EMenu
 {
     main = 0,
     writing = 1,
-    kanji = 2,
+    kanjiLookup = 2,
+    kanjiPractice = 3,
     MAX = 100,
 }
 
 public class MenuManager : MonoBehaviour
 {
-    
+    Dictionary<EMenu, GameObject> menuDictionary = new Dictionary<EMenu, GameObject>();
+
     [SerializeField] GameObject mainMenu;
     [SerializeField] GameObject writingMenu;
-    [SerializeField] GameObject kanjiMenu;
+    [SerializeField] GameObject kanjiStudyMenu;
+    [SerializeField] GameObject kanjiLookupMenu;
 
-    EMenu currentMenu = EMenu.main;
+    static MenuManager instance;
 
-    public void SelectMainMenu()
+    private void Awake()
     {
-        if(currentMenu == EMenu.main) { return; }
-        writingMenu.SetActive(false);
-        mainMenu.SetActive(true);
-        currentMenu = EMenu.writing;
-
+        instance = this;
     }
 
-    public void SelectWritingPractice()
+    public static MenuManager GetInstance()
     {
-        if(currentMenu == EMenu.writing) { return; }
-
-        mainMenu.SetActive(false);
-        writingMenu.SetActive(true);
-        currentMenu = EMenu.writing;
+        return instance;
     }
 
-    public void SelectKanjiPractice()
+    private void Start()
     {
-        if(currentMenu == EMenu.kanji) { return; }
+        menuDictionary.Add(EMenu.main, mainMenu);
+        menuDictionary.Add (EMenu.writing, writingMenu);
+        menuDictionary.Add(EMenu.kanjiPractice, kanjiStudyMenu);
+        menuDictionary.Add(EMenu.kanjiLookup, kanjiLookupMenu);
+    }
 
-        mainMenu.SetActive(false);
-        kanjiMenu.SetActive(true);
-        currentMenu = EMenu.kanji;
+    public void SelectMenu(EMenu menu)
+    {
+        DeactivateAllMenus();
+        menuDictionary[menu].SetActive(true);
+    }
+
+    void DeactivateAllMenus()
+    {
+        foreach(KeyValuePair<EMenu, GameObject> kvp in menuDictionary)
+        {
+            kvp.Value.SetActive(false);
+        }
     }
 }
