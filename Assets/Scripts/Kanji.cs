@@ -1,24 +1,31 @@
-using UnityEngine;
+
+using System.Text;
 
 [System.Serializable]
-public enum EWordType
+public class Kanji
 {
-    none = 0,
-    noun = 10,
-    verb = 20,
-    adverb = 30,
-    adjective = 40,
-    number = 50,
-}
+    public string kanji;
+    public int grade;
+    public int stroke_count;
+    public string[] meanings;
+    public string heisig_en;
+    public string[] kun_readings;
+    public string[] on_readings;
+    public string[] name_readings;
+    public int jlpt;
+    public string unicode;
 
-[CreateAssetMenu(fileName = "Character", menuName = "Kanji")]
-public class Kanji : ScriptableObject
-{
-    public string kanjiString;
-    public string englishMeaning;
-    public EWordType wordType;
-    [Header("On'yomi Reading")]
-    public string sinoHiragana;
-    [Header("Kun'yomi Reading")]
-    public string nativeHiragana;
+    public Kanji()
+    {
+    }
+
+    public override string ToString()
+    {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < meanings.Length; i++)
+        {
+            sb.Append(meanings[i] + " ");
+        }
+        return kanji + " " + sb.ToString();
+    }
 }
