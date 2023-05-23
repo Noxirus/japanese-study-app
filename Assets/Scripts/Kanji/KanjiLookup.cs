@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Text;
+using System;
 
 public class KanjiLookup : MonoBehaviour
 {
@@ -13,7 +14,8 @@ public class KanjiLookup : MonoBehaviour
 
     [Header("Kanji Details UI")]
     [SerializeField] TextMeshProUGUI kanjiCharacterText;
-    [SerializeField] TextMeshProUGUI meaningsText;
+    [SerializeField] TextMeshProUGUI meaningsColumn1Text;
+    [SerializeField] TextMeshProUGUI meaningsColumn2Text;
     [SerializeField] TextMeshProUGUI onYomiText;
     [SerializeField] TextMeshProUGUI kunYomiText;
 
@@ -29,9 +31,18 @@ public class KanjiLookup : MonoBehaviour
 
     public void SetKanjiDetails(Kanji kanji)
     {
-        Debug.Log("Found kanji");
         kanjiCharacterText.text = kanji.kanji;
-        meaningsText.text = ReturnAppendedString(kanji.meanings);   
+
+        string[] meanings = kanji.meanings;
+        int meaningsMid = meanings.Length / 2;
+        string[] meaningsFirstHalf = new string[meaningsMid];
+        string[] meaningsSecondHalf = new string[meanings.Length - meaningsMid];
+
+        Array.Copy(meanings, 0, meaningsFirstHalf, 0, meaningsMid);
+        Array.Copy(meanings, meaningsMid, meaningsSecondHalf, 0, meanings.Length - meaningsMid);
+
+        meaningsColumn1Text.text = ReturnAppendedString(meaningsFirstHalf); 
+        meaningsColumn2Text.text = ReturnAppendedString(meaningsSecondHalf); 
         onYomiText.text = ReturnAppendedString(kanji.on_readings);
         kunYomiText.text = ReturnAppendedString(kanji.kun_readings);
         searchingForKanjiScreen.SetActive(false);

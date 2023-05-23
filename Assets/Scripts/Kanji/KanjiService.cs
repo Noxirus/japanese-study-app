@@ -60,7 +60,6 @@ public class KanjiService : MonoBehaviour
         if (request.result == UnityWebRequest.Result.Success)
         {
             string responseText = request.downloadHandler.text;
-            Debug.Log(responseText);
             Kanji newKanjiInformation = JsonConvert.DeserializeObject<Kanji>(responseText);
             kanjiDictionary.Add(kanjiCharacter, newKanjiInformation);
             followUpEvent.Invoke(newKanjiInformation);
