@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 public class KanjiPractice : MonoBehaviour
 {
-    [SerializeField] List<Kanji> kanjiList;
+    List<Kanji> kanjiList;
 
     Kanji currentKanji;
     bool bIsRomanjiQuestion = true;
@@ -22,6 +21,11 @@ public class KanjiPractice : MonoBehaviour
     [Header("Kun'yomi Reading")]
     [SerializeField] TextMeshProUGUI nativeHiraganaText;
 
+    private void OnEnable()
+    {
+        kanjiList = KanjiService.GetInstance().ReturnStudyCards();
+    }
+
     public void DisplayQuestion()
     {
         bIsRomanjiQuestion = Random.Range(0, 2) == 0 ? true : false;
@@ -32,13 +36,16 @@ public class KanjiPractice : MonoBehaviour
             kanjiText.text = "";
             kanjiText.gameObject.SetActive(false);
             descriptionText.text = "What is the kanji for this word?";
-            //wordText.text = currentKanji.englishMeaning;
+
+            int randomMeaning = Random.Range(0, currentKanji.meanings.Length);
+            wordText.text = currentKanji.meanings[randomMeaning];
+
             wordText.gameObject.SetActive(true);
         }
         else
         {
             descriptionText.text = "What does this kanji represent?";
-            //kanjiText.text = currentKanji.kanjiString;
+            kanjiText.text = currentKanji.kanji;
             kanjiText.gameObject.SetActive(true);
             wordText.gameObject.SetActive(false);
         }
@@ -56,20 +63,20 @@ public class KanjiPractice : MonoBehaviour
         {
             wordText.text = "";
             wordText.gameObject.SetActive(false);
-            //kanjiText.text = currentKanji.kanjiString;
+            kanjiText.text = currentKanji.kanji;
             kanjiText.gameObject.SetActive(true);
         }
         else
         {
             kanjiText.text = "";
             kanjiText.gameObject.SetActive(false);
-            //wordText.text = currentKanji.englishMeaning;
+            wordText.text = HelperMethods.ReturnAppendedString(currentKanji.meanings, ", ");
             wordText.gameObject.SetActive(true);
         }
 
-        //sinoHiraganaText.text = currentKanji.sinoHiragana;
+        sinoHiraganaText.text = HelperMethods.ReturnAppendedString(currentKanji.on_readings);
         sinoHiraganaText.gameObject.SetActive(true);
-        //nativeHiraganaText.text = currentKanji.nativeHiragana;
+        nativeHiraganaText.text = HelperMethods.ReturnAppendedString(currentKanji.kun_readings);
         nativeHiraganaText.gameObject.SetActive(true);
 
         answerButton.SetActive(false);

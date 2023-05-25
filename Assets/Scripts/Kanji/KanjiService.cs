@@ -31,10 +31,31 @@ public class KanjiService : MonoBehaviour
         return instance;
     }
 
+    public List<Kanji> ReturnStudyCards()
+    {
+        List<Kanji> returnList = new List<Kanji>();
+        foreach(KeyValuePair<string, Kanji> kvp in kanjiStudyCards)
+        {
+            returnList.Add(kvp.Value);
+        }
+
+        return returnList;
+    }
+
     public void AddKanjiToStudyCards(Kanji kanji)
     {
         kanjiStudyCards.Add(kanji.kanji, kanji);
         //Add this to the player preferences
+    }
+
+    public void RemoveFromStudyCards(string kanji)
+    {
+        kanjiStudyCards.Remove(kanji);
+    }
+
+    public bool HasInStudyCards(string kanji)
+    {
+        return kanjiStudyCards.ContainsKey(kanji);
     }
 
 

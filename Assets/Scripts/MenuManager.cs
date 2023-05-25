@@ -8,6 +8,7 @@ public enum EMenu
     writing = 1,
     kanjiLookup = 2,
     kanjiPractice = 3,
+    kanjiCardLibrary = 4,
     MAX = 100,
 }
 
@@ -19,6 +20,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject writingMenu;
     [SerializeField] GameObject kanjiStudyMenu;
     [SerializeField] GameObject kanjiLookupMenu;
+    [SerializeField] GameObject kanjiCardLibraryMenu;
+
+    [SerializeField] KanjiDetails kanjiDetails;
 
     static MenuManager instance;
 
@@ -38,6 +42,7 @@ public class MenuManager : MonoBehaviour
         menuDictionary.Add (EMenu.writing, writingMenu);
         menuDictionary.Add(EMenu.kanjiPractice, kanjiStudyMenu);
         menuDictionary.Add(EMenu.kanjiLookup, kanjiLookupMenu);
+        menuDictionary.Add(EMenu.kanjiCardLibrary, kanjiCardLibraryMenu);
     }
 
     public void SelectMenu(EMenu menu)
@@ -52,5 +57,10 @@ public class MenuManager : MonoBehaviour
         {
             kvp.Value.SetActive(false);
         }
+    }
+
+    public void LookupKanji(Kanji kanji)
+    {
+        kanjiDetails.SetKanjiDetails(kanji);
     }
 }
