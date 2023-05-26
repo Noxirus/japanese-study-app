@@ -233,7 +233,7 @@ MonoBehaviour:
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 150
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -368,7 +368,7 @@ MonoBehaviour:
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 150
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -912,8 +912,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   kanjiCharacterText: {fileID: 4289886857092177394}
   meaningsText: {fileID: 4289886858117005442}
-  onYomiText: {fileID: 4289886857901821443}
-  kunYomiText: {fileID: 4289886858531336537}
+  onYomiText: {fileID: 4289886857087633764}
+  kunYomiText: {fileID: 4289886857019312359}
   addOrRemoveCardButtonText: {fileID: 4289886856657523425}
 --- !u!1 &4289886858112471581
 GameObject:

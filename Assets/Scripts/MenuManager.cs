@@ -16,12 +16,14 @@ public class MenuManager : MonoBehaviour
 {
     Dictionary<EMenu, GameObject> menuDictionary = new Dictionary<EMenu, GameObject>();
 
+    [Header("Menus")]
     [SerializeField] GameObject mainMenu;
     [SerializeField] GameObject writingMenu;
     [SerializeField] GameObject kanjiStudyMenu;
     [SerializeField] GameObject kanjiLookupMenu;
     [SerializeField] GameObject kanjiCardLibraryMenu;
 
+    [Header("Overlay Menus")]
     [SerializeField] KanjiDetails kanjiDetails;
 
     static MenuManager instance;
@@ -61,6 +63,7 @@ public class MenuManager : MonoBehaviour
 
     public void LookupKanji(Kanji kanji)
     {
+        kanjiDetails.gameObject.SetActive(true);
         kanjiDetails.SetKanjiDetails(kanji);
     }
 }

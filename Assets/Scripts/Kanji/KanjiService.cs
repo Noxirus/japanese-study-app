@@ -14,6 +14,8 @@ public class KanjiService : MonoBehaviour
 
     const string kanjiAPIUrl = "https://kanjiapi.dev/v1/";
 
+    const string PLAYER_PREFS_STRING = "savedKanji";
+
     private void Awake()
     {
         instance = this;
@@ -21,9 +23,26 @@ public class KanjiService : MonoBehaviour
 
     private void Start()
     {
-        //Populate the current dictionary
-        //Check the users player prefs to see what they have currently saved locally on their device
-        //Add it to the dictionary and active kanji dictionary
+        string savedKanji = PlayerPrefs.GetString(PLAYER_PREFS_STRING);
+
+        Debug.Log("saved Kanji: " + savedKanji);
+        if (savedKanji == null)
+        {
+            PlayerPrefs.SetString(PLAYER_PREFS_STRING, "");
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            for(int i = 0; i < savedKanji.Length; i++)
+            {
+                RequestSingleKanji(savedKanji[i].ToString(), AddKanjiToStudyCards, FailedToFindCharacter);
+            }
+        }
+    }
+
+    public void FailedToFindCharacter()
+    {
+        Debug.Log("Failed to find certain character");
     }
 
     public static KanjiService GetInstance()
@@ -44,13 +63,35 @@ public class KanjiService : MonoBehaviour
 
     public void AddKanjiToStudyCards(Kanji kanji)
     {
+        if (kanjiStudyCards.ContainsKey(kanji.kanji)) { return; }
         kanjiStudyCards.Add(kanji.kanji, kanji);
-        //Add this to the player preferences
+
+        string savedKanji = PlayerPrefs.GetString(PLAYER_PREFS_STRING);
+
+        if(savedKanji.Contains(kanji.kanji)) { return; }
+        PlayerPrefs.SetString(PLAYER_PREFS_STRING, savedKanji += kanji.kanji);
+        PlayerPrefs.Save();
     }
 
     public void RemoveFromStudyCards(string kanji)
     {
+        if (!kanjiStudyCards.ContainsKey(kanji)) { return; }
         kanjiStudyCards.Remove(kanji);
+        string savedKanji = PlayerPrefs.GetString (PLAYER_PREFS_STRING);
+
+        if (savedKanji.Contains(kanji))
+        {
+            for(int i = 0; i <  savedKanji.Length; i++)
+            {
+                if (savedKanji[i].ToString() == kanji)
+                {
+                    savedKanji = savedKanji.Remove(i, 1);
+                    break;
+                }
+            }
+            PlayerPrefs.SetString(PLAYER_PREFS_STRING, savedKanji);
+            PlayerPrefs.Save();
+        }
     }
 
     public bool HasInStudyCards(string kanji)
